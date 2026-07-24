@@ -1,12 +1,29 @@
 # BuildLab stack
 
+[![validate](https://github.com/Chrison-Homelab/Homelab.Stacks.BuildLab/actions/workflows/validate.yml/badge.svg)](https://github.com/Chrison-Homelab/Homelab.Stacks.BuildLab/actions/workflows/validate.yml)
+[![Built with Fallout](https://img.shields.io/badge/built%20with-Fallout-8A2BE2)](https://github.com/Fallout-build/Fallout)
+[![Homelab stack](https://img.shields.io/badge/homelab-stack-0ea5e9)](https://github.com/Chrison-Homelab/Homelab)
+
 Windows dev/build VMs on `desktop-01` — for testing the **Fallout .NET build
 framework** across multiple Visual Studio MSBuild toolchains (2019 / 2022 / 2026,
 IDE + Build Tools).
 
-> Scaffolded **locally** for now (not yet a submodule). Promote to
-> `Chrison-dev/Homelab.Stacks.BuildLab` once the shape stabilises.
-> Plan: [`docs/plans/buildlab-windows-vm.md`](../../docs/plans/buildlab-windows-vm.md).
+> A [`Homelab.Stacks.*`](https://github.com/Chrison-Homelab/Homelab) submodule
+> (mounts at `stacks/BuildLab`).
+> Plan: [`docs/plans/buildlab-windows-vm.md`](https://github.com/Chrison-Homelab/Homelab/blob/main/docs/plans/buildlab-windows-vm.md).
+
+The VM *shell* is IaC (provisioned greenfield by the engine via the ProxmoxSharp
+VM write path); the guest OS + Visual Studio installs are fully unattended:
+
+```mermaid
+flowchart LR
+  ISO["📀 build-iso.ps1<br/>Win11 + virtio + autounattend"] --> CREATE
+  CREATE["🖥️ engine converge<br/>create VM 1100 (greenfield)"] --> WIN["🪟 Win11 unattended install<br/>(OOBE bypass · RDP · virtio)"]
+  WIN --> VS["🧰 provision-vs.ps1<br/>VS 2019 / 2022 / 2026<br/>IDE + Build Tools + .NET SDK"]
+  VS --> READY["✅ headless build box"]
+  classDef done fill:#dcfce7,stroke:#16a34a;
+  class READY done;
+```
 
 ## Members
 
