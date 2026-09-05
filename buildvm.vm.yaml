@@ -73,6 +73,7 @@ spec:
 
   network:
     bridge: vmbr0
+    vlan: 1010            # Homelab VLAN — untagged meant the LEGACY network, which is being retired (Homelab#37)
     # net0 virtio, MAC auto-assigned. Add a UniFi DHCP reservation after first boot.
 
   boot:
